@@ -1,0 +1,231 @@
+/* Fraunces — "soft serif", tohum paketi ve eski katalog tipografisine yakın
+   Familjen Grotesk — İskandinav sadeliğinde gövde
+   Sometype Mono — fiyat, ağırlık, parti numarası gibi ölçü bilgileri */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,600&family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sometype+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+@import 'tailwindcss';
+
+@theme {
+  /* Toprak katmanları — klişe parlak organik yeşili yerine derin, ıslak toprak */
+  --color-soil-900: #10180D;
+  --color-soil-800: #17220F;
+  --color-soil-700: #1F2E16;
+  --color-soil-600: #2C3F1F;
+
+  --color-leaf-500: #5B8C2A;
+  --color-leaf-400: #77A93D;
+  --color-leaf-300: #9BC65F;
+
+  /* Turp moru — vurgu. Organik gıdada nadir, terracotta klişesinden kaçınır */
+  --color-radish-600: #8E2049;
+  --color-radish-500: #A8305B;
+  --color-radish-400: #C4507A;
+
+  --color-corn-500: #E0A92E;
+  --color-corn-400: #EFC04F;
+
+  /* Kağıt — tohum paketi kartonu */
+  --color-paper-50: #F7F4E9;
+  --color-paper-100: #EFEADA;
+  --color-paper-200: #DFD7C0;
+  --color-paper-400: #A99F84;
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Familjen Grotesk', system-ui, sans-serif;
+  --font-mono: 'Sometype Mono', ui-monospace, monospace;
+
+  --animate-grow: grow 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-sway: sway 7s ease-in-out infinite;
+
+  --ease-soil: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes grow {
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-1.5deg); }
+  50%      { transform: rotate(1.5deg); }
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-paper-50);
+    color: var(--color-soil-800);
+    font-family: var(--font-body);
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    /* Fraunces'in "wonk" ekseni — harflerde hafif el yapımı sapma */
+    font-variation-settings: 'SOFT' 30, 'WONK' 1;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  button:not(:disabled),
+  a[href],
+  label[for],
+  summary {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-radish-500);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--color-corn-400);
+    color: var(--color-soil-900);
+  }
+}
+
+@layer components {
+  /* Tohum paketi kartı — projenin taşıyıcı yüzeyi */
+  .seed-card {
+    position: relative;
+    background: var(--color-paper-100);
+    border: 1px solid var(--color-paper-200);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: all 0.45s var(--ease-soil);
+  }
+
+  .seed-card::before {
+    /* kartın üstünde delikli kenar izlenimi */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background-image: radial-gradient(circle at 4px 3px, var(--color-paper-50) 2.2px, transparent 2.4px);
+    background-size: 10px 6px;
+    z-index: 2;
+  }
+
+  .seed-card:hover {
+    border-color: var(--color-leaf-500);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px -18px rgba(16, 24, 13, 0.55);
+  }
+
+  .btn-soil {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.6rem;
+    background: var(--color-soil-700);
+    color: var(--color-paper-50);
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 2px;
+    transition: all 0.35s var(--ease-soil);
+  }
+
+  .btn-soil:hover {
+    background: var(--color-leaf-500);
+    transform: translateY(-2px);
+  }
+
+  .btn-soil:disabled {
+    opacity: 0.45;
+    transform: none;
+  }
+
+  .btn-radish {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.6rem;
+    background: var(--color-radish-500);
+    color: var(--color-paper-50);
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 2px;
+    transition: all 0.35s var(--ease-soil);
+  }
+
+  .btn-radish:hover {
+    background: var(--color-radish-600);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    background: transparent;
+    color: var(--color-soil-700);
+    border: 1px solid var(--color-soil-700);
+    border-radius: 2px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.35s var(--ease-soil);
+  }
+
+  .btn-outline:hover {
+    background: var(--color-soil-700);
+    color: var(--color-paper-50);
+  }
+
+  /* Ölçü etiketi — fiyat, ağırlık, parti no */
+  .measure {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-paper-400);
+  }
+
+  .stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.55rem;
+    border: 1px solid currentColor;
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+}
+
+@layer utilities {
+  .rule-dashed {
+    border-top: 1px dashed var(--color-paper-200);
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { scrollbar-width: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
